@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://enzorvg.github.io/basketcie-site/sitemap.xml
+Sitemap: https://basket-cie.fr/sitemap.xml
