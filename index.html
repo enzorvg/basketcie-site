@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basket&amp;cie — L'application des clubs de basket amateurs</title>
+  <meta name="description" content="Convocations, présences, chat d'équipe, calendrier et actus du club dans une seule application. Gratuite pour les familles, à partir de 200 € par saison pour le club.">
+  <link rel="canonical" href="https://enzorvg.github.io/basketcie-site/">
+  <meta name="theme-color" content="#1E7A44">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Basket&amp;cie">
+  <meta property="og:title" content="Basket&amp;cie — L'application des clubs de basket amateurs">
+  <meta property="og:description" content="Convocations en un tap, chat d'équipe, calendrier et actus du club. Gratuite pour les familles.">
+  <meta property="og:url" content="https://enzorvg.github.io/basketcie-site/">
+  <meta property="og:image" content="https://enzorvg.github.io/basketcie-site/assets/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Polices hébergées sur le site : aucune requête vers un service tiers. -->
+  <link rel="preload" href="assets/fonts/poppins-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Basket&cie",
+        "applicationCategory": "SportsApplication",
+        "operatingSystem": "iOS, Android",
+        "inLanguage": "fr",
+        "description": "Application mobile pour les clubs de basket amateurs : convocations avec réponse présent/absent, chat de groupes, calendrier, actus du club, résultats et back-office web.",
+        "offers": [
+          {"@type": "Offer", "name": "Petit club (jusqu'à 80 licenciés)", "price": "200", "priceCurrency": "EUR"},
+          {"@type": "Offer", "name": "Club (81 à 150 licenciés)", "price": "250", "priceCurrency": "EUR"},
+          {"@type": "Offer", "name": "Grand club (plus de 150 licenciés)", "price": "300", "priceCurrency": "EUR"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type": "Question", "name": "L'application est-elle payante pour les familles ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Seul le club paie un abonnement par saison. Parents et joueurs utilisent l'application gratuitement, sans publicité."}},
+          {"@type": "Question", "name": "Comment les familles rejoignent-elles le club ?", "acceptedAnswer": {"@type": "Answer", "text": "Chaque licencié reçoit un code personnel. Le parent le saisit dans l'application puis confirme la date de naissance de son enfant. Après trois erreurs, le rattachement est bloqué jusqu'à ce que le club le débloque."}},
+          {"@type": "Question", "name": "Les enfants ont-ils un compte ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Les moins de 15 ans n'ont jamais de compte : leur fiche est gérée par le club et par leurs parents. À partir de 15 ans, un joueur peut créer son propre compte."}},
+          {"@type": "Question", "name": "Comment est calculé le prix ?", "acceptedAnswer": {"@type": "Answer", "text": "Le prix dépend uniquement du nombre de licenciés du club : 200 € par saison jusqu'à 80 licenciés, 250 € jusqu'à 150, 300 € au-delà. Toutes les fonctionnalités sont incluses dans chaque formule."}},
+          {"@type": "Question", "name": "Peut-on supprimer ses données ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Chaque utilisateur peut exporter ses données ou supprimer son compte depuis l'application, et le club peut supprimer la fiche d'un licencié à tout moment."}}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --vert: #1E7A44;
+      --vert-fonce: #145C33;
+      --vert-nuit: #0E3D22;
+      --vert-clair: #E8F3EC;
+      --orange: #F5821F;
+      --orange-fonce: #C2610C;
+      --encre: #12341F;
+      --texte: #3B4A41;
+      --discret: #6B7A70;
+      --fond: #F7F8F5;
+      --bordure: #E3E7E0;
+      --blanc: #FFFFFF;
+      --rayon: 20px;
+      --ombre: 0 1px 2px rgba(18, 52, 31, .06), 0 12px 32px -12px rgba(18, 52, 31, .18);
+      --largeur: 1160px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--texte);
+      background: var(--fond);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--vert); }
+    h1, h2, h3 { font-family: Poppins, Inter, sans-serif; color: var(--encre); line-height: 1.15; margin: 0; }
+    h1 { font-size: clamp(2.3rem, 5.2vw, 3.7rem); font-weight: 800; letter-spacing: -0.012em; }
+    h2 { font-size: clamp(1.9rem, 3.6vw, 2.7rem); font-weight: 800; letter-spacing: -0.01em; }
+    h3 { font-size: 1.2rem; font-weight: 700; }
+    p { margin: 0; }
+    .conteneur { max-width: var(--largeur); margin: 0 auto; padding: 0 24px; }
+    .surtitre {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--vert);
+    }
+    .surtitre::before { content: ""; width: 18px; height: 2px; background: var(--orange); border-radius: 2px; }
+    .section { padding: 104px 0; }
+    .entete-section { max-width: 680px; margin-bottom: 56px; }
+    .entete-section h2 { margin: 12px 0 16px; }
+    .entete-section p { font-size: 1.1rem; color: var(--discret); }
+    .centre { text-align: center; margin-left: auto; margin-right: auto; }
+    .centre .surtitre { justify-content: center; }
+
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 6px; }
+    .lien-evitement { position: absolute; left: -9999px; }
+    .lien-evitement:focus { left: 16px; top: 16px; z-index: 100; background: var(--blanc); padding: 8px 16px; }
+
+    /* --- Boutons --------------------------------------------------------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 15px 26px; border-radius: 14px; border: 2px solid transparent;
+      font: 600 1rem/1 Inter, sans-serif; text-decoration: none; cursor: pointer;
+      transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-orange { background: var(--orange); color: #fff; box-shadow: 0 8px 20px -8px rgba(245, 130, 31, .7); }
+    .btn-orange:hover { background: #E87410; }
+    .btn-contour { border-color: var(--bordure); color: var(--encre); background: var(--blanc); }
+    .btn-contour:hover { border-color: var(--vert); }
+    .btn-blanc { background: #fff; color: var(--vert-fonce); }
+    .btn svg { width: 18px; height: 18px; flex: none; }
+
+    /* --- En-tête ----------------------------------------------------------- */
+    .entete {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(247, 248, 245, .86);
+      backdrop-filter: saturate(160%) blur(12px);
+      -webkit-backdrop-filter: saturate(160%) blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s ease;
+    }
+    .entete.defile { border-bottom-color: var(--bordure); }
+    .entete .conteneur { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.25rem Poppins, sans-serif; color: var(--encre); }
+    .logo img { width: 36px; height: 36px; }
+    .logo b { color: var(--orange); font-weight: 800; }
+    .nav { display: flex; align-items: center; gap: 32px; }
+    .nav a:not(.btn) { color: var(--texte); text-decoration: none; font-weight: 500; font-size: .95rem; }
+    .nav a:not(.btn):hover { color: var(--vert); }
+    .nav .btn { padding: 11px 18px; font-size: .92rem; }
+    .menu-bouton { display: none; background: none; border: 0; padding: 8px; cursor: pointer; color: var(--encre); }
+    .menu-bouton svg { width: 26px; height: 26px; }
+
+    /* --- Héros ------------------------------------------------------------- */
+    .heros { position: relative; overflow: hidden; padding: 64px 0 96px; }
+    .heros::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(900px 500px at 85% 20%, rgba(30, 122, 68, .14), transparent 60%),
+        radial-gradient(600px 400px at 70% 90%, rgba(245, 130, 31, .10), transparent 60%);
+    }
+    .terrain { position: absolute; right: -180px; top: -60px; width: 900px; z-index: -1; opacity: .5; }
+    .heros .conteneur { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+    .heros h1 { margin: 18px 0 22px; }
+    .heros h1 em {
+      font-style: normal; color: var(--vert); white-space: nowrap;
+      /* Surlignage orange qui suit chaque ligne si le texte passe à la ligne. */
+      background: linear-gradient(transparent 80%, rgba(245, 130, 31, .35) 80%, rgba(245, 130, 31, .35) 96%, transparent 96%);
+      -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    }
+    .heros .accroche { font-size: 1.2rem; max-width: 560px; color: var(--texte); }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; margin: 34px 0 30px; }
+    .preuves { display: flex; flex-wrap: wrap; gap: 10px 22px; list-style: none; padding: 0; margin: 0; font-size: .93rem; color: var(--discret); }
+    .preuves li { display: inline-flex; align-items: center; gap: 8px; }
+    .preuves svg { width: 18px; height: 18px; color: var(--vert); flex: none; }
+
+    .telephones { position: relative; height: 640px; }
+    .telephone {
+      position: absolute; width: 290px; aspect-ratio: 600 / 1229;
+      border-radius: 44px; padding: 10px; background: #0F1A14;
+      box-shadow: 0 40px 80px -30px rgba(14, 61, 34, .55), 0 0 0 1px rgba(255,255,255,.06) inset;
+    }
+    .telephone::before {
+      content: ""; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+      width: 86px; height: 24px; border-radius: 20px; background: #0F1A14; z-index: 2;
+    }
+    .telephone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 34px; background: #fff; padding-top: 46px; }
+    .telephone.devant { right: 40px; top: 10px; z-index: 2; transform: rotate(2.5deg); }
+    .telephone.derriere { left: 10px; top: 70px; transform: rotate(-5deg) scale(.92); filter: saturate(.95); }
+    .bulle {
+      position: absolute; z-index: 3; display: flex; align-items: center; gap: 12px;
+      background: #fff; border-radius: 16px; padding: 12px 16px; box-shadow: var(--ombre);
+      font-size: .88rem; line-height: 1.35; color: var(--encre);
+    }
+    .bulle strong { display: block; font-weight: 600; }
+    .bulle small { color: var(--discret); }
+    .bulle .pastille { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+    .bulle .pastille svg { width: 20px; height: 20px; }
+    .bulle.notif { left: -10px; top: 18px; }
+    .bulle.notif .pastille { background: var(--vert); color: #fff; }
+    .bulle.reponse { right: 0; bottom: 36px; }
+    .bulle.reponse .pastille { background: var(--vert-clair); color: var(--vert); }
+
+    /* --- Bandeau avant / après ---------------------------------------------- */
+    .bandeau { background: var(--vert-nuit); color: #CFE3D6; padding: 64px 0; }
+    .bandeau .conteneur { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .bandeau .avant { text-decoration: line-through; text-decoration-color: rgba(245, 130, 31, .8); color: #8FB09B; font-size: .95rem; }
+    .bandeau .apres { color: #fff; font: 600 1.15rem/1.4 Poppins, sans-serif; margin-top: 8px; }
+
+    /* --- Fonctionnalités en vitrine --------------------------------------- */
+    .vitrine { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-bottom: 112px; }
+    .vitrine:last-child { margin-bottom: 0; }
+    .vitrine.inverse .vitrine-visuel { order: 2; }
+    .vitrine-visuel {
+      position: relative; display: grid; place-items: center; padding: 48px 24px;
+      border-radius: 32px; background: linear-gradient(160deg, var(--vert-clair), #F3EADF);
+    }
+    .vitrine-visuel .telephone { position: relative; width: 280px; transform: none; }
+    .vitrine-texte h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 800; letter-spacing: -0.01em; margin: 12px 0 16px; }
+    .vitrine-texte > p { font-size: 1.08rem; }
+    .coches { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 14px; }
+    .coches li { display: flex; gap: 12px; align-items: flex-start; }
+    .coches svg { width: 22px; height: 22px; flex: none; margin-top: 2px; color: var(--vert); }
+
+    /* --- Grille des fonctionnalités ---------------------------------------- */
+    .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .carte {
+      background: var(--blanc); border: 1px solid var(--bordure); border-radius: var(--rayon);
+      padding: 28px; transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .carte:hover { transform: translateY(-3px); box-shadow: var(--ombre); }
+    .icone {
+      width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+      background: var(--vert-clair); color: var(--vert); margin-bottom: 18px;
+    }
+    .icone svg { width: 24px; height: 24px; }
+    .carte h3 { margin-bottom: 8px; }
+    .carte p { font-size: .97rem; color: var(--discret); }
+
+    /* --- Étapes ------------------------------------------------------------- */
+    .fond-blanc { background: var(--blanc); }
+    .etapes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; counter-reset: etape; }
+    .etape { position: relative; padding-top: 72px; }
+    .etape::before {
+      counter-increment: etape; content: counter(etape);
+      position: absolute; top: 0; left: 0; width: 52px; height: 52px; border-radius: 16px;
+      display: grid; place-items: center; background: var(--vert); color: #fff;
+      font: 800 1.3rem Poppins, sans-serif;
+    }
+    .etape:not(:last-child)::after {
+      content: ""; position: absolute; top: 26px; left: 68px; right: -16px; height: 2px;
+      background: repeating-linear-gradient(90deg, var(--bordure) 0 8px, transparent 8px 14px);
+    }
+    .etape h3 { margin-bottom: 10px; }
+    .etape p { color: var(--discret); }
+    .code-exemple {
+      display: inline-block; margin-top: 14px; padding: 8px 14px; border-radius: 10px;
+      background: var(--vert-clair); color: var(--vert-fonce);
+      font: 800 1.05rem Poppins, sans-serif; letter-spacing: .12em;
+    }
+
+    /* --- Profils ------------------------------------------------------------- */
+    .profils { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .profil { border-radius: var(--rayon); padding: 32px; background: var(--blanc); border: 1px solid var(--bordure); }
+    .profil .etiquette { display: inline-block; font-weight: 600; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; margin-bottom: 18px; }
+    .profil:nth-child(1) .etiquette { background: #FFF1E4; color: var(--orange-fonce); }
+    .profil:nth-child(2) .etiquette { background: var(--vert-clair); color: var(--vert-fonce); }
+    .profil:nth-child(3) .etiquette { background: #E9EEF7; color: #34507A; }
+    .profil h3 { font-size: 1.35rem; margin-bottom: 14px; }
+    .profil .coches { margin-top: 18px; gap: 10px; font-size: .97rem; }
+
+    /* --- Confiance (RGPD) ---------------------------------------------------- */
+    .confiance { background: var(--vert-fonce); color: #D5E8DC; position: relative; overflow: hidden; }
+    .confiance h2, .confiance h3 { color: #fff; }
+    .confiance .surtitre { color: #9FD1B2; }
+    .confiance .entete-section p { color: #B9D6C4; }
+    .confiance .grille .carte { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); }
+    .confiance .grille .carte p { color: #B9D6C4; }
+    .confiance .icone { background: rgba(255,255,255,.1); color: #fff; }
+
+    /* --- Tarifs -------------------------------------------------------------- */
+    .tarifs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+    .tarif {
+      position: relative; display: flex; flex-direction: column;
+      background: var(--blanc); border: 1px solid var(--bordure); border-radius: 24px; padding: 34px 30px;
+    }
+    .tarif.vedette { border: 2px solid var(--vert); box-shadow: 0 30px 60px -30px rgba(30, 122, 68, .45); }
+    .tarif .badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+      background: var(--orange); color: #fff; font-weight: 600; font-size: .8rem; padding: 6px 14px; border-radius: 999px;
+    }
+    .tarif h3 { font-size: 1.25rem; }
+    .tarif .taille { color: var(--discret); margin-top: 4px; }
+    .tarif .prix { display: flex; align-items: baseline; gap: 6px; margin: 26px 0 4px; }
+    .tarif .prix strong { font: 800 3.1rem/1 Poppins, sans-serif; color: var(--encre); letter-spacing: -0.03em; }
+    .tarif .prix span { color: var(--discret); font-weight: 500; }
+    .tarif .par-licence { display: inline-block; align-self: flex-start; font-size: .88rem; font-weight: 600; color: var(--vert-fonce); background: var(--vert-clair); padding: 4px 10px; border-radius: 8px; }
+    .tarif .coches { margin: 26px 0 30px; gap: 11px; font-size: .96rem; }
+    .tarif .btn { margin-top: auto; width: 100%; }
+    .tarifs-note { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 36px; color: var(--discret); font-size: .95rem; }
+    .tarifs-note span { display: inline-flex; gap: 8px; align-items: center; }
+    .tarifs-note svg { width: 18px; height: 18px; color: var(--vert); }
+
+    /* --- FAQ ------------------------------------------------------------------- */
+    .faq { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+    .faq details { background: var(--blanc); border: 1px solid var(--bordure); border-radius: 16px; padding: 0 24px; }
+    .faq summary {
+      list-style: none; cursor: pointer; padding: 22px 32px 22px 0; position: relative;
+      font: 600 1.05rem Poppins, sans-serif; color: var(--encre);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: ""; position: absolute; right: 2px; top: 50%; width: 12px; height: 12px; margin-top: -8px;
+      border-right: 2.5px solid var(--vert); border-bottom: 2.5px solid var(--vert); transform: rotate(45deg);
+      transition: transform .2s ease;
+    }
+    .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+    .faq details p { padding: 0 0 22px; color: var(--texte); }
+
+    /* --- Appel final ------------------------------------------------------- */
+    .appel {
+      position: relative; overflow: hidden; border-radius: 32px; padding: 72px 48px; text-align: center;
+      background: linear-gradient(135deg, var(--vert) 0%, var(--vert-nuit) 100%); color: #D5E8DC;
+    }
+    .appel h2 { color: #fff; max-width: 720px; margin: 0 auto 16px; }
+    .appel p { max-width: 560px; margin: 0 auto; font-size: 1.1rem; }
+    .appel .actions { justify-content: center; margin-bottom: 0; }
+    .appel .terrain-appel { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .12; pointer-events: none; }
+
+    /* --- Pied de page -------------------------------------------------------- */
+    .pied { padding: 56px 0 40px; color: var(--discret); font-size: .92rem; }
+    .pied .conteneur { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: center; }
+    .pied nav { display: flex; flex-wrap: wrap; gap: 24px; }
+    .pied a { color: var(--discret); text-decoration: none; }
+    .pied a:hover { color: var(--vert); }
+    .stores { display: flex; gap: 10px; flex-wrap: wrap; }
+    .store {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px;
+      border: 1px solid var(--bordure); background: var(--blanc); color: var(--encre); font-size: .85rem; font-weight: 500;
+    }
+    .store svg { width: 18px; height: 18px; }
+
+    /* --- Apparition au défilement ----------------------------------------- */
+    .apparait { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .apparait.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .apparait { opacity: 1; transform: none; transition: none; }
+      .btn, .carte { transition: none; }
+    }
+
+    /* --- Responsive ----------------------------------------------------------- */
+    @media (max-width: 1020px) {
+      .heros .conteneur { grid-template-columns: 1fr; }
+      .telephones { height: 560px; max-width: 520px; margin: 0 auto; width: 100%; }
+      .grille, .profils, .tarifs { grid-template-columns: 1fr 1fr; }
+      .tarif.vedette { order: -1; grid-column: 1 / -1; max-width: 460px; justify-self: center; width: 100%; }
+      .vitrine { grid-template-columns: 1fr; gap: 36px; }
+      .vitrine.inverse .vitrine-visuel { order: 0; }
+    }
+    @media (max-width: 760px) {
+      body { font-size: 16px; }
+      .section { padding: 72px 0; }
+      .menu-bouton { display: block; }
+      .nav {
+        position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 4px;
+        background: var(--fond); border-bottom: 1px solid var(--bordure); padding: 12px 24px 20px;
+        display: none;
+      }
+      .nav.ouvert { display: flex; }
+      .nav a:not(.btn) { padding: 12px 0; font-size: 1.05rem; }
+      .nav .btn { margin-top: 8px; padding: 14px; }
+      .heros { padding-top: 32px; }
+      .telephones { height: 470px; }
+      .telephone { width: 220px; border-radius: 34px; padding: 8px; }
+      .telephone img { border-radius: 27px; padding-top: 36px; }
+      .telephone::before { top: 15px; width: 64px; height: 18px; }
+      .telephone.devant { right: 4px; }
+      .telephone.derriere { left: -4px; }
+      .bulle { font-size: .8rem; padding: 10px 12px; }
+      .bulle.notif { left: 0; top: 0; }
+      .bulle.reponse { right: 0; bottom: 8px; }
+      .bandeau .conteneur, .grille, .profils, .tarifs, .etapes { grid-template-columns: 1fr; }
+      .etape:not(:last-child)::after { display: none; }
+      .tarif.vedette { max-width: none; order: 0; }
+      .vitrine { margin-bottom: 80px; }
+      .vitrine-visuel { padding: 36px 16px; }
+      .vitrine-visuel .telephone { width: 240px; }
+      .appel { padding: 56px 24px; border-radius: 24px; }
+      .terrain { display: none; }
+      .heros h1 em { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+  <!-- Symboles d'icônes réutilisés -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-coche" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".14"/><path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cloche" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16Zm4 4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bouclier" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="entete" id="entete">
+    <div class="conteneur">
+      <a class="logo" href="#" aria-label="Basket&amp;cie, accueil">
+        <img src="assets/favicon.svg" alt="" width="36" height="36">
+        <span>Basket<b>&amp;</b>cie</span>
+      </a>
+      <button class="menu-bouton" id="menu-bouton" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="nav" aria-label="Navigation principale">
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="#comment">Comment ça marche</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-orange" href="#contact">Nous contacter</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Héros -->
+    <section class="heros">
+      <svg class="terrain" viewBox="0 0 900 900" fill="none" stroke="#1E7A44" stroke-width="2" aria-hidden="true">
+        <circle cx="450" cy="450" r="120"/>
+        <circle cx="450" cy="450" r="30"/>
+        <path d="M450 0v900"/>
+        <path d="M80 160a420 420 0 0 1 740 0"/>
+        <rect x="330" y="0" width="240" height="250"/>
+        <circle cx="450" cy="250" r="120" stroke-dasharray="10 12"/>
+      </svg>
+      <div class="conteneur">
+        <div>
+          <span class="surtitre">Pour les clubs de basket amateurs</span>
+          <h1>Toute la vie du club, <em>dans une seule app</em></h1>
+          <p class="accroche">Convocations, réponses présent ou absent en un geste, chat d'équipe, calendrier et actus du club. Fini les relances par SMS et les fils WhatsApp à rallonge.</p>
+          <div class="actions">
+            <a class="btn btn-orange" href="#contact">Équiper mon club <svg aria-hidden="true"><use href="#i-fleche"/></svg></a>
+            <a class="btn btn-contour" href="#tarifs">Voir les tarifs</a>
+          </div>
+          <ul class="preuves">
+            <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Gratuite pour les familles</li>
+            <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Sans publicité</li>
+            <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Pensée pour protéger les mineurs</li>
+          </ul>
+        </div>
+
+        <div class="telephones" aria-hidden="true">
+          <div class="telephone derriere"><img src="assets/staff-home.webp" alt="" width="600" height="1229"></div>
+          <div class="telephone devant"><img src="assets/famille-home.webp" alt="" width="600" height="1229" fetchpriority="high"></div>
+          <div class="bulle notif">
+            <span class="pastille"><svg><use href="#i-cloche"/></svg></span>
+            <span><strong>Nouvelle convocation</strong><small>Match contre Étoile Charleville</small></span>
+          </div>
+          <div class="bulle reponse">
+            <span class="pastille"><svg><use href="#i-coche"/></svg></span>
+            <span><strong>Nathan sera présent</strong><small>Réponse envoyée au coach</small></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Avant / après -->
+    <section class="bandeau" aria-label="Ce qui change pour le club">
+      <div class="conteneur">
+        <div class="apparait">
+          <p class="avant">Les convocations noyées dans un groupe WhatsApp</p>
+          <p class="apres">Une convocation claire, une réponse en un geste</p>
+        </div>
+        <div class="apparait">
+          <p class="avant">Le tableau Excel des présences tenu par le coach</p>
+          <p class="apres">Les présences comptées automatiquement, en direct</p>
+        </div>
+        <div class="apparait">
+          <p class="avant">Les relances une par une, par SMS</p>
+          <p class="apres">Une relance des non-répondants en un clic</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vitrine des fonctionnalités clés -->
+    <section class="section" id="fonctionnalites">
+      <div class="conteneur">
+        <div class="entete-section centre apparait">
+          <span class="surtitre">Fonctionnalités</span>
+          <h2>Pensée pour le bord du terrain</h2>
+          <p>Chaque écran répond à une question que les familles et les coachs se posent toute la saison : qui joue, quand, où, et qui vient.</p>
+        </div>
+
+        <article class="vitrine apparait">
+          <div class="vitrine-visuel">
+            <div class="telephone"><img src="assets/famille-home.webp" alt="Accueil d'un parent : prochain match de son enfant avec boutons Présent et Absent" width="600" height="1229" loading="lazy"></div>
+          </div>
+          <div class="vitrine-texte">
+            <span class="surtitre">Pour les familles</span>
+            <h3>Répondre à une convocation en moins de 10 secondes</h3>
+            <p>Le parent reçoit une notification, ouvre l'app et voit le prochain match de son enfant : date, lieu, heure de rendez-vous et consignes. Un geste suffit pour répondre.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Présent ou absent, avec un commentaire si besoin</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Plusieurs enfants, plusieurs clubs : tout au même endroit</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Réponse modifiable à tout moment</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="vitrine inverse apparait">
+          <div class="vitrine-visuel">
+            <div class="telephone"><img src="assets/staff-home.webp" alt="Tableau de bord d'un coach : présents, absents et réponses en attente pour le prochain match" width="600" height="1229" loading="lazy"></div>
+          </div>
+          <div class="vitrine-texte">
+            <span class="surtitre">Pour les coachs</span>
+            <h3>Savoir qui vient, sans courir après personne</h3>
+            <p>Le coach convoque ses joueurs depuis son téléphone et suit les réponses en direct. Les retardataires reçoivent une relance d'un seul clic.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Présents, absents et réponses en attente d'un coup d'œil</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Matchs, entraînements et événements du club</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Saisie du score après le match</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="vitrine apparait">
+          <div class="vitrine-visuel">
+            <div class="telephone"><img src="assets/club.webp" alt="Onglet Le Club : prochains événements comme la journée Halloween et actus du club" width="600" height="1229" loading="lazy"></div>
+          </div>
+          <div class="vitrine-texte">
+            <span class="surtitre">Pour tout le club</span>
+            <h3>La vie du club, enfin au même endroit</h3>
+            <p>Tournoi de Noël, journée Halloween, photos du dernier match : les actus et les événements du club arrivent directement dans la poche de chaque famille.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Actus avec photo, publiées par le bureau, les coachs ou les bénévoles</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Résultats de toutes les équipes, jour par jour</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Notifications pour ne rien manquer, réglables par chacun</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Grille complète -->
+    <section class="section fond-blanc" aria-labelledby="titre-tout">
+      <div class="conteneur">
+        <div class="entete-section apparait">
+          <span class="surtitre">Tout est inclus</span>
+          <h2 id="titre-tout">Ce dont un club a besoin, rien de superflu</h2>
+        </div>
+        <div class="grille">
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4m8-4v4M3 10h18m-11 5 2 2 4-4"/></svg></div>
+            <h3>Convocations</h3>
+            <p>Choix des joueurs, heure de rendez-vous, consignes. Les familles sont prévenues par notification.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg></div>
+            <h3>Chat d'équipe</h3>
+            <p>Un groupe par équipe, alimenté automatiquement. Signalement et modération par le club.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16Zm4 4h4"/></svg></div>
+            <h3>Notifications</h3>
+            <p>Convocations, messages et actus en temps réel. Chacun choisit ce qu'il veut recevoir.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></div>
+            <h3>Résultats</h3>
+            <p>Les scores de toutes les équipes du club, consultables par tous les membres.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11v3a1 1 0 0 0 1 1h2l5 4V6L7 10H5a1 1 0 0 0-1 1Z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></div>
+            <h3>Actus et agenda</h3>
+            <p>Photos, annonces et événements du club, avec les bénévoles comme relais.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M7 9h4m-4 3h7"/></svg></div>
+            <h3>Back-office web</h3>
+            <p>Équipes, licenciés, import CSV, coachs et bénévoles : le bureau gère tout depuis un ordinateur.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comment ça marche -->
+    <section class="section" id="comment">
+      <div class="conteneur">
+        <div class="entete-section centre apparait">
+          <span class="surtitre">Comment ça marche</span>
+          <h2>Opérationnel en une soirée</h2>
+          <p>Pas de formation, pas d'installation compliquée : le club prépare, les familles rejoignent.</p>
+        </div>
+        <div class="etapes">
+          <div class="etape apparait">
+            <h3>Le club importe ses licenciés</h3>
+            <p>Depuis le back-office, en saisissant les équipes ou en important un simple fichier CSV.</p>
+          </div>
+          <div class="etape apparait">
+            <h3>Chaque famille reçoit son code</h3>
+            <p>Un code personnel par licencié, à transmettre par mail ou sur une affiche au gymnase.</p>
+            <span class="code-exemple" aria-label="Exemple de code">K7MP3QX9TB</span>
+          </div>
+          <div class="etape apparait">
+            <h3>Les parents rejoignent en 1 minute</h3>
+            <p>Ils téléchargent l'app, saisissent le code et confirment la date de naissance de leur enfant. C'est tout.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pour qui -->
+    <section class="section fond-blanc" aria-labelledby="titre-profils">
+      <div class="conteneur">
+        <div class="entete-section apparait">
+          <span class="surtitre">Pour qui</span>
+          <h2 id="titre-profils">Chacun y gagne du temps</h2>
+        </div>
+        <div class="profils">
+          <div class="profil apparait">
+            <span class="etiquette">Parents et joueurs</span>
+            <h3>Toutes les infos, sans chercher</h3>
+            <p>Plus besoin de remonter 200 messages pour trouver l'heure du match.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Calendrier des matchs et entraînements</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Réponse aux convocations en un geste</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Compte joueur dès 15 ans</span></li>
+            </ul>
+          </div>
+          <div class="profil apparait">
+            <span class="etiquette">Coachs</span>
+            <h3>Le terrain, pas l'administratif</h3>
+            <p>Le coach sait combien de joueurs il aura, avant même d'arriver au gymnase.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Convocation de l'équipe en quelques secondes</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Relance des non-répondants</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Effectif et scores depuis le téléphone</span></li>
+            </ul>
+          </div>
+          <div class="profil apparait">
+            <span class="etiquette">Dirigeants</span>
+            <h3>Un club organisé et rassurant</h3>
+            <p>Une image professionnelle auprès des familles, sans alourdir le travail des bénévoles.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Vue sur toutes les équipes du club</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Gestion des coachs et des bénévoles</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Modération des échanges</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Confiance -->
+    <section class="section confiance" aria-labelledby="titre-confiance">
+      <div class="conteneur">
+        <div class="entete-section apparait">
+          <span class="surtitre">Données et mineurs</span>
+          <h2 id="titre-confiance">Conçue pour protéger les enfants</h2>
+          <p>Un club de basket, ce sont surtout des mineurs. Basket&amp;cie a été pensée pour le RGPD dès la première ligne.</p>
+        </div>
+        <div class="grille">
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24"><use href="#i-bouclier"/></svg></div>
+            <h3>Pas de compte avant 15 ans</h3>
+            <p>Les plus jeunes n'ont jamais de compte : leur fiche est gérée par le club et leurs parents.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+            <h3>Rattachement vérifié</h3>
+            <p>Code personnel et date de naissance de l'enfant : impossible de se rattacher au hasard à un joueur.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6m4-6v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></div>
+            <h3>Données supprimables</h3>
+            <p>Export et suppression du compte depuis l'app. Photos nettoyées de leur position GPS.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarifs -->
+    <section class="section" id="tarifs">
+      <div class="conteneur">
+        <div class="entete-section centre apparait">
+          <span class="surtitre">Tarifs</span>
+          <h2>Un prix simple, selon la taille du club</h2>
+          <p>Un abonnement par saison, toutes les fonctionnalités incluses. Plus le club grandit, moins chaque licence coûte.</p>
+        </div>
+
+        <div class="tarifs">
+          <div class="tarif apparait">
+            <h3>Petit club</h3>
+            <p class="taille">Jusqu'à 80 licenciés</p>
+            <p class="prix"><strong>200&nbsp;€</strong><span>/ saison</span></p>
+            <span class="par-licence">Soit 2,50 € par licence à 80 licenciés</span>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Toutes les fonctionnalités</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Équipes et coachs illimités</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Familles gratuites</span></li>
+            </ul>
+            <a class="btn btn-contour" href="#contact">Nous contacter</a>
+          </div>
+
+          <div class="tarif vedette apparait">
+            <span class="badge">Le plus courant</span>
+            <h3>Club</h3>
+            <p class="taille">De 81 à 150 licenciés</p>
+            <p class="prix"><strong>250&nbsp;€</strong><span>/ saison</span></p>
+            <span class="par-licence">Soit 1,67 € par licence à 150 licenciés</span>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Toutes les fonctionnalités</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Équipes et coachs illimités</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Familles gratuites</span></li>
+            </ul>
+            <a class="btn btn-orange" href="#contact">Nous contacter</a>
+          </div>
+
+          <div class="tarif apparait">
+            <h3>Grand club</h3>
+            <p class="taille">Plus de 150 licenciés</p>
+            <p class="prix"><strong>300&nbsp;€</strong><span>/ saison</span></p>
+            <span class="par-licence">Moins de 2 € par licence</span>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Toutes les fonctionnalités</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Équipes et coachs illimités</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Familles gratuites</span></li>
+            </ul>
+            <a class="btn btn-contour" href="#contact">Nous contacter</a>
+          </div>
+        </div>
+
+        <div class="tarifs-note apparait">
+          <span><svg aria-hidden="true"><use href="#i-coche"/></svg>Gratuit pour les parents et les joueurs</span>
+          <span><svg aria-hidden="true"><use href="#i-coche"/></svg>Sans publicité, sans revente de données</span>
+          <span><svg aria-hidden="true"><use href="#i-coche"/></svg>Accompagnement à la mise en place</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section fond-blanc" id="faq">
+      <div class="conteneur">
+        <div class="entete-section centre apparait">
+          <span class="surtitre">FAQ</span>
+          <h2>Questions fréquentes</h2>
+        </div>
+        <div class="faq">
+          <details class="apparait">
+            <summary>L'application est-elle payante pour les familles ?</summary>
+            <p>Non. Seul le club paie un abonnement par saison. Parents et joueurs utilisent l'application gratuitement, sans publicité.</p>
+          </details>
+          <details class="apparait">
+            <summary>Comment les familles rejoignent-elles le club ?</summary>
+            <p>Chaque licencié reçoit un code personnel. Le parent le saisit dans l'application puis confirme la date de naissance de son enfant. Après trois erreurs, le rattachement est bloqué jusqu'à ce que le club le débloque.</p>
+          </details>
+          <details class="apparait">
+            <summary>Les enfants ont-ils un compte ?</summary>
+            <p>Non. Les moins de 15 ans n'ont jamais de compte : leur fiche est gérée par le club et par leurs parents. À partir de 15 ans, un joueur peut créer son propre compte.</p>
+          </details>
+          <details class="apparait">
+            <summary>Comment est calculé le prix ?</summary>
+            <p>Le prix dépend uniquement du nombre de licenciés du club : 200 € par saison jusqu'à 80 licenciés, 250 € jusqu'à 150, 300 € au-delà. Toutes les fonctionnalités sont incluses dans chaque formule.</p>
+          </details>
+          <details class="apparait">
+            <summary>Faut-il installer quelque chose au club ?</summary>
+            <p>Non. Le bureau utilise le back-office depuis un navigateur, et les familles téléchargent l'application sur leur téléphone (iPhone ou Android).</p>
+          </details>
+          <details class="apparait">
+            <summary>Peut-on supprimer ses données ?</summary>
+            <p>Oui. Chaque utilisateur peut exporter ses données ou supprimer son compte depuis l'application, et le club peut supprimer la fiche d'un licencié à tout moment.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="conteneur">
+        <div class="appel apparait">
+          <svg class="terrain-appel" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true">
+            <path d="M600 0v500"/><circle cx="600" cy="250" r="90"/><circle cx="600" cy="250" r="22"/>
+            <path d="M0 60h180v380H0M1200 60h-180v380h180"/><path d="M180 130a120 120 0 0 1 0 240M1020 130a120 120 0 0 0 0 240"/>
+          </svg>
+          <h2>Votre club mérite mieux qu'un groupe WhatsApp</h2>
+          <p>Écrivez-nous : on vous ouvre un accès pour votre club et on vous accompagne pour la mise en place.</p>
+          <div class="actions">
+            <a class="btn btn-blanc" href="mailto:basketcie.app@gmail.com?subject=Basket%26cie%20pour%20mon%20club">
+              <svg aria-hidden="true"><use href="#i-mail"/></svg>Nous contacter
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <div class="conteneur">
+      <a class="logo" href="#" aria-label="Basket&amp;cie, haut de page">
+        <img src="assets/favicon.svg" alt="" width="36" height="36">
+        <span>Basket<b>&amp;</b>cie</span>
+      </a>
+      <div class="stores" aria-label="Disponibilité">
+        <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8a4.6 4.6 0 0 0-3.9 2.4c-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.7 2.4 2.9 2.4 1.2-.1 1.6-.8 3-.8s1.8.8 3.1.8c1.3 0 2.1-1.2 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.5-4.1ZM14.1 5.5c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3Z"/></svg>App Store · bientôt</span>
+        <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.8v18.4c0 .4.4.7.8.5l10.5-9.2L4.8 2.3c-.4-.2-.8.1-.8.5Zm12.6 8.6L6.9 2.5l11.3 6.3-1.6 2.6Zm0 1.2 1.6 2.6-11.3 6.3 9.7-8.9Zm2.8-3 2.6 1.4c.5.3.5 1 0 1.3l-2.6 1.4-1.8-2.1 1.8-2Z"/></svg>Google Play · bientôt</span>
+      </div>
+      <nav aria-label="Liens légaux">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="mailto:basketcie.app@gmail.com">Contact</a>
+        <span>© 2026 Basket&amp;cie</span>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // En-tête : bordure au défilement.
+    const entete = document.getElementById('entete');
+    addEventListener('scroll', () => entete.classList.toggle('defile', scrollY > 8), { passive: true });
+
+    // Menu mobile.
+    const bouton = document.getElementById('menu-bouton');
+    const nav = document.getElementById('nav');
+    bouton.addEventListener('click', () => {
+      const ouvert = nav.classList.toggle('ouvert');
+      bouton.setAttribute('aria-expanded', String(ouvert));
+    });
+    nav.addEventListener('click', (e) => {
+      if (e.target.closest('a')) { nav.classList.remove('ouvert'); bouton.setAttribute('aria-expanded', 'false'); }
+    });
+
+    // Apparition douce des sections (le contenu reste visible sans JavaScript, voir <noscript>).
+    const observateur = new IntersectionObserver((entrees) => {
+      for (const e of entrees) if (e.isIntersecting) { e.target.classList.add('visible'); observateur.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.apparait').forEach((el) => observateur.observe(el));
+  </script>
+  <noscript><style>.apparait { opacity: 1; transform: none; }</style></noscript>
+</body>
+</html>
