@@ -15,13 +15,13 @@
   <meta property="og:title" content="Basket&amp;cie — L'application des clubs de basket amateurs">
   <meta property="og:description" content="Convocations en un tap, chat d'équipe, calendrier et actus du club. Gratuite pour les familles.">
   <meta property="og:url" content="https://basket-cie.fr/">
-  <meta property="og:image" content="https://basket-cie.fr/assets/og.jpg?v=3">
+  <meta property="og:image" content="https://basket-cie.fr/assets/og.jpg?v=4">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Polices hébergées sur le site : aucune requête vers un service tiers. -->
-  <link rel="preload" href="assets/fonts/poppins-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/fonts.css">
+  <link rel="preload" href="assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts.css?v=2">
 
   <script type="application/ld+json">
   {
@@ -81,7 +81,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: 84px; }
     body {
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-family: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
       font-size: 17px;
       line-height: 1.6;
       color: var(--texte);
@@ -90,10 +90,10 @@
     }
     img { max-width: 100%; display: block; }
     a { color: var(--orange); }
-    h1, h2, h3 { font-family: Poppins, Inter, sans-serif; color: var(--encre); line-height: 1.15; margin: 0; }
-    h1 { font-size: clamp(2.3rem, 5.2vw, 3.7rem); font-weight: 800; letter-spacing: -0.012em; }
-    h2 { font-size: clamp(1.9rem, 3.6vw, 2.7rem); font-weight: 800; letter-spacing: -0.01em; }
-    h3 { font-size: 1.2rem; font-weight: 700; }
+    h1, h2, h3 { font-family: 'Archivo Black', Archivo, sans-serif; font-weight: 400; color: var(--encre); line-height: 1.12; margin: 0; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(2.3rem, 5.2vw, 3.7rem); }
+    h2 { font-size: clamp(1.9rem, 3.6vw, 2.7rem); }
+    h3 { font-size: 1.2rem; letter-spacing: -0.01em; }
     p { margin: 0; }
     .conteneur { max-width: var(--largeur); margin: 0 auto; padding: 0 24px; }
     .surtitre {
@@ -117,7 +117,7 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px;
       padding: 15px 26px; border-radius: 14px; border: 2px solid transparent;
-      font: 600 1rem/1 Inter, sans-serif; text-decoration: none; cursor: pointer;
+      font: 600 1rem/1 Archivo, sans-serif; text-decoration: none; cursor: pointer;
       transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
     }
     .btn:hover { transform: translateY(-1px); }
@@ -140,9 +140,9 @@
     }
     .entete.defile { border-bottom-color: var(--bordure); }
     .entete .conteneur { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-    .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.25rem Poppins, sans-serif; color: var(--encre); }
+    .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 400 1.25rem 'Archivo Black', Archivo, sans-serif; letter-spacing: -0.02em; color: var(--encre); }
     .logo img { width: 36px; height: 36px; }
-    .logo b { color: var(--orange); font-weight: 800; }
+    .logo b { color: var(--orange); font-weight: 400; }
     .nav { display: flex; align-items: center; gap: 32px; }
     .nav a:not(.btn) { color: var(--texte); text-decoration: none; font-weight: 500; font-size: .95rem; }
     .nav a:not(.btn):hover { color: var(--orange); }
@@ -204,7 +204,7 @@
     .bandeau { background: var(--noir); color: #D6D6D6; padding: 64px 0; }
     .bandeau .conteneur { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
     .bandeau .avant { text-decoration: line-through; text-decoration-color: rgba(242, 107, 29, .9); color: #8C8C8C; font-size: .95rem; }
-    .bandeau .apres { color: #fff; font: 600 1.15rem/1.4 Poppins, sans-serif; margin-top: 8px; }
+    .bandeau .apres { color: #fff; font: 700 1.15rem/1.4 Archivo, sans-serif; margin-top: 8px; }
 
     /* --- Fonctionnalités en vitrine --------------------------------------- */
     .vitrine { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-bottom: 112px; }
@@ -215,7 +215,7 @@
       border-radius: 32px; background: linear-gradient(160deg, var(--orange-clair), var(--gris-clair));
     }
     .vitrine-visuel .telephone { position: relative; width: 280px; transform: none; }
-    .vitrine-texte h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 800; letter-spacing: -0.01em; margin: 12px 0 16px; }
+    .vitrine-texte h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); letter-spacing: -0.02em; margin: 12px 0 16px; }
     .vitrine-texte > p { font-size: 1.08rem; }
     .coches { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 14px; }
     .coches li { display: flex; gap: 12px; align-items: flex-start; }
@@ -235,7 +235,7 @@
     .navigateur { width: 100%; max-width: 560px; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 40px 80px -30px rgba(17, 17, 17, .45), 0 0 0 1px rgba(17, 17, 17, .08); }
     .navigateur-barre { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; background: var(--gris-clair); border-bottom: 1px solid var(--bordure); }
     .navigateur-barre i { width: 9px; height: 9px; border-radius: 50%; background: #D4D4D0; }
-    .navigateur-barre span { margin-left: 10px; flex: 1; height: 16px; border-radius: 6px; background: #fff; font: 500 .62rem/16px Inter, sans-serif; color: var(--discret); padding-left: 8px; }
+    .navigateur-barre span { margin-left: 10px; flex: 1; height: 16px; border-radius: 6px; background: #fff; font: 500 .62rem/16px Archivo, sans-serif; color: var(--discret); padding-left: 8px; }
     .navigateur img { width: 100%; height: auto; }
 
     /* --- Grille des fonctionnalités ---------------------------------------- */
@@ -261,7 +261,7 @@
       counter-increment: etape; content: counter(etape);
       position: absolute; top: 0; left: 0; width: 52px; height: 52px; border-radius: 16px;
       display: grid; place-items: center; background: var(--noir); color: var(--orange-vif);
-      font: 800 1.3rem Poppins, sans-serif;
+      font: 400 1.3rem 'Archivo Black', Archivo, sans-serif;
     }
     .etape:not(:last-child)::after {
       content: ""; position: absolute; top: 26px; left: 68px; right: -16px; height: 2px;
@@ -272,7 +272,7 @@
     .code-exemple {
       display: inline-block; margin-top: 14px; padding: 8px 14px; border-radius: 10px;
       background: var(--orange-clair); color: var(--orange-fonce);
-      font: 800 1.05rem Poppins, sans-serif; letter-spacing: .12em;
+      font: 400 1.05rem 'Archivo Black', Archivo, sans-serif; letter-spacing: .12em;
     }
 
     /* --- Profils ------------------------------------------------------------- */
@@ -308,7 +308,7 @@
     .tarif h3 { font-size: 1.25rem; }
     .tarif .taille { color: var(--discret); margin-top: 4px; }
     .tarif .prix { display: flex; align-items: baseline; gap: 6px; margin: 26px 0 0; }
-    .tarif .prix strong { font: 800 3.1rem/1 Poppins, sans-serif; color: var(--encre); letter-spacing: -0.03em; }
+    .tarif .prix strong { font: 400 3.1rem/1 'Archivo Black', Archivo, sans-serif; color: var(--encre); letter-spacing: -0.03em; }
     .tarif .prix span { color: var(--discret); font-weight: 500; }
     .tarif .coches { margin: 26px 0 30px; gap: 11px; font-size: .96rem; }
     .tarif .btn { margin-top: auto; width: 100%; }
@@ -321,7 +321,7 @@
     .faq details { background: var(--blanc); border: 1px solid var(--bordure); border-radius: 16px; padding: 0 24px; }
     .faq summary {
       list-style: none; cursor: pointer; padding: 22px 32px 22px 0; position: relative;
-      font: 600 1.05rem Poppins, sans-serif; color: var(--encre);
+      font: 700 1.05rem Archivo, sans-serif; color: var(--encre);
     }
     .faq summary::-webkit-details-marker { display: none; }
     .faq summary::after {
