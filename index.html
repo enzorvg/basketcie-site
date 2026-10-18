@@ -47,6 +47,7 @@
           {"@type": "Question", "name": "Comment les familles rejoignent-elles le club ?", "acceptedAnswer": {"@type": "Answer", "text": "Chaque licencié reçoit un code personnel. Le parent le saisit dans l'application puis confirme la date de naissance de son enfant. Après trois erreurs, le rattachement est bloqué jusqu'à ce que le club le débloque."}},
           {"@type": "Question", "name": "Les enfants ont-ils un compte ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Les moins de 15 ans n'ont jamais de compte : leur fiche est gérée par le club et par leurs parents. À partir de 15 ans, un joueur peut créer son propre compte."}},
           {"@type": "Question", "name": "Comment est calculé le prix ?", "acceptedAnswer": {"@type": "Answer", "text": "Le prix dépend uniquement du nombre de licenciés du club : 200 € par saison jusqu'à 80 licenciés, 250 € jusqu'à 150, 300 € au-delà. Toutes les fonctionnalités sont incluses dans chaque formule."}},
+          {"@type": "Question", "name": "L'application est-elle aux couleurs de notre club ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. À l'ouverture de votre accès, l'application prend les deux couleurs de votre club et affiche son nom sur chaque écran. Une famille inscrite dans deux clubs retrouve chacun à ses couleurs."}},
           {"@type": "Question", "name": "Peut-on supprimer ses données ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Chaque utilisateur peut exporter ses données ou supprimer son compte depuis l'application, et le club peut supprimer la fiche d'un licencié à tout moment."}}
         ]
       }
@@ -219,6 +220,16 @@
     .coches li { display: flex; gap: 12px; align-items: flex-start; }
     .coches svg { width: 22px; height: 22px; flex: none; margin-top: 2px; color: var(--orange); }
 
+    /* --- Aux couleurs du club : trois téléphones en éventail ---------------- */
+    .trio { position: relative; width: 100%; max-width: 460px; height: 520px; }
+    .trio .telephone { position: absolute; width: 220px; border-radius: 34px; padding: 8px; top: 30px; }
+    .trio .telephone::before { top: 15px; width: 64px; height: 18px; }
+    .trio .telephone img { border-radius: 27px; padding-top: 36px; }
+    .trio .telephone:nth-child(1) { left: 0; transform: rotate(-8deg); z-index: 1; }
+    .trio .telephone:nth-child(2) { left: 50%; margin-left: -110px; top: 0; z-index: 3; }
+    .trio .telephone:nth-child(3) { right: 0; transform: rotate(8deg); z-index: 2; }
+    .vitrine-visuel .trio .telephone { width: 220px; }
+
     /* --- Grille des fonctionnalités ---------------------------------------- */
     .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .carte {
@@ -383,6 +394,11 @@
       .vitrine { margin-bottom: 80px; }
       .vitrine-visuel { padding: 36px 16px; }
       .vitrine-visuel .telephone { width: 240px; }
+      .trio { height: 400px; max-width: 340px; }
+      .trio .telephone, .vitrine-visuel .trio .telephone { width: 165px; border-radius: 26px; padding: 6px; }
+      .trio .telephone:nth-child(2) { margin-left: -82px; }
+      .trio .telephone img { border-radius: 21px; padding-top: 28px; }
+      .trio .telephone::before { top: 11px; width: 48px; height: 14px; }
       .appel { padding: 56px 24px; border-radius: 24px; }
       .terrain { display: none; }
       .heros h1 em { white-space: normal; }
@@ -444,6 +460,7 @@
             <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Gratuite pour les familles</li>
             <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Sans publicité</li>
             <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Pensée pour protéger les mineurs</li>
+            <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Aux couleurs de votre club</li>
           </ul>
         </div>
 
@@ -533,6 +550,26 @@
               <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Actus avec photo, publiées par le bureau, les coachs ou les bénévoles</span></li>
               <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Résultats de toutes les équipes, jour par jour</span></li>
               <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Notifications pour ne rien manquer, réglables par chacun</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="vitrine inverse apparait">
+          <div class="vitrine-visuel">
+            <div class="trio">
+              <div class="telephone"><img src="assets/couleurs-bleu.webp" alt="Accueil de l'app aux couleurs d'un club en bleu et jaune" width="600" height="1229" loading="lazy"></div>
+              <div class="telephone"><img src="assets/couleurs-rouge.webp" alt="Accueil de l'app aux couleurs d'un club en rouge et noir" width="600" height="1229" loading="lazy"></div>
+              <div class="telephone"><img src="assets/couleurs-vert.webp" alt="Accueil de l'app aux couleurs d'un club en vert et orange" width="600" height="1229" loading="lazy"></div>
+            </div>
+          </div>
+          <div class="vitrine-texte">
+            <span class="surtitre">À votre image</span>
+            <h3>Votre club, vos couleurs</h3>
+            <p>L'application prend les couleurs de votre club et affiche son nom sur chaque écran. Les familles ouvrent l'app de leur club, pas une application anonyme.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Les deux couleurs du club, réglées à l'ouverture de votre accès</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Le nom du club en tête de chaque écran</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Une famille dans deux clubs retrouve chacun à ses couleurs</span></li>
             </ul>
           </div>
         </article>
@@ -643,6 +680,7 @@
               <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Vue sur toutes les équipes du club</span></li>
               <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Gestion des coachs et des bénévoles</span></li>
               <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Modération des échanges</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>L'app aux couleurs et au nom du club</span></li>
             </ul>
           </div>
         </div>
@@ -756,6 +794,10 @@
           <details class="apparait">
             <summary>Comment est calculé le prix ?</summary>
             <p>Le prix dépend uniquement du nombre de licenciés du club : 200 € par saison jusqu'à 80 licenciés, 250 € jusqu'à 150, 300 € au-delà. Toutes les fonctionnalités sont incluses dans chaque formule.</p>
+          </details>
+          <details class="apparait">
+            <summary>L'application est-elle aux couleurs de notre club ?</summary>
+            <p>Oui. À l'ouverture de votre accès, l'application prend les deux couleurs de votre club et affiche son nom sur chaque écran. Une famille inscrite dans deux clubs retrouve chacun à ses couleurs.</p>
           </details>
           <details class="apparait">
             <summary>Faut-il installer quelque chose au club ?</summary>
