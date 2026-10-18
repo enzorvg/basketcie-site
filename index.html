@@ -31,9 +31,9 @@
         "@type": "SoftwareApplication",
         "name": "Basket&cie",
         "applicationCategory": "SportsApplication",
-        "operatingSystem": "iOS, Android",
+        "operatingSystem": "iOS, Android, Web",
         "inLanguage": "fr",
-        "description": "Application mobile pour les clubs de basket amateurs : convocations avec réponse présent/absent, chat de groupes, calendrier, actus du club, résultats et back-office web.",
+        "description": "Application pour les clubs de basket amateurs, sur iPhone, Android et ordinateur : convocations avec réponse présent/absent, chat de groupes, calendrier, actus du club, résultats, boutique, licences, factures, documents et back-office web.",
         "offers": [
           {"@type": "Offer", "name": "Petit club (jusqu'à 80 licenciés)", "price": "200", "priceCurrency": "EUR"},
           {"@type": "Offer", "name": "Club (81 à 150 licenciés)", "price": "250", "priceCurrency": "EUR"},
@@ -48,6 +48,7 @@
           {"@type": "Question", "name": "Les enfants ont-ils un compte ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Les moins de 15 ans n'ont jamais de compte : leur fiche est gérée par le club et par leurs parents. À partir de 15 ans, un joueur peut créer son propre compte."}},
           {"@type": "Question", "name": "Comment est calculé le prix ?", "acceptedAnswer": {"@type": "Answer", "text": "Le prix dépend uniquement du nombre de licenciés du club : 200 € par saison jusqu'à 80 licenciés, 250 € jusqu'à 150, 300 € au-delà. Toutes les fonctionnalités sont incluses dans chaque formule."}},
           {"@type": "Question", "name": "L'application est-elle aux couleurs de notre club ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. À l'ouverture de votre accès, l'application prend les deux couleurs de votre club et affiche son nom sur chaque écran. Une famille inscrite dans deux clubs retrouve chacun à ses couleurs."}},
+          {"@type": "Question", "name": "Sur quels appareils fonctionne Basket&cie ?", "acceptedAnswer": {"@type": "Answer", "text": "Sur iPhone (App Store), sur Android (Google Play) et sur ordinateur, depuis un simple navigateur. Le même compte fonctionne partout. La version ordinateur va plus loin : licences, documents, factures, boutique du club, trombinoscope et statistiques."}},
           {"@type": "Question", "name": "Peut-on supprimer ses données ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Chaque utilisateur peut exporter ses données ou supprimer son compte depuis l'application, et le club peut supprimer la fiche d'un licencié à tout moment."}}
         ]
       }
@@ -229,6 +230,13 @@
     .trio .telephone:nth-child(2) { left: 50%; margin-left: -110px; top: 0; z-index: 3; }
     .trio .telephone:nth-child(3) { right: 0; transform: rotate(8deg); z-index: 2; }
     .vitrine-visuel .trio .telephone { width: 220px; }
+
+    /* --- Cadre navigateur (version web) ------------------------------------ */
+    .navigateur { width: 100%; max-width: 560px; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 40px 80px -30px rgba(17, 17, 17, .45), 0 0 0 1px rgba(17, 17, 17, .08); }
+    .navigateur-barre { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; background: var(--gris-clair); border-bottom: 1px solid var(--bordure); }
+    .navigateur-barre i { width: 9px; height: 9px; border-radius: 50%; background: #D4D4D0; }
+    .navigateur-barre span { margin-left: 10px; flex: 1; height: 16px; border-radius: 6px; background: #fff; font: 500 .62rem/16px Inter, sans-serif; color: var(--discret); padding-left: 8px; }
+    .navigateur img { width: 100%; height: auto; }
 
     /* --- Grille des fonctionnalités ---------------------------------------- */
     .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -494,6 +502,7 @@
             <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Sans publicité</li>
             <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Pensée pour protéger les mineurs</li>
             <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Aux couleurs de votre club</li>
+            <li><svg aria-hidden="true"><use href="#i-coche"/></svg>Sur iPhone, Android et ordinateur</li>
           </ul>
         </div>
 
@@ -606,6 +615,25 @@
             </ul>
           </div>
         </article>
+
+        <article class="vitrine apparait">
+          <div class="vitrine-visuel">
+            <div class="navigateur">
+              <div class="navigateur-barre" aria-hidden="true"><i></i><i></i><i></i><span>app.basket-cie.fr</span></div>
+              <img src="assets/web-accueil.webp" alt="Espace famille sur ordinateur : convocations, agenda de l'équipe et vie du club sur tout l'écran" width="1440" height="900" loading="lazy">
+            </div>
+          </div>
+          <div class="vitrine-texte">
+            <span class="surtitre">Aussi sur ordinateur</span>
+            <h3>Un espace complet sur le web, en plus de l'app</h3>
+            <p>Sur le téléphone, l'essentiel du bord du terrain. Depuis un ordinateur, les familles retrouvent tout leur espace avec la même connexion, et bien plus encore.</p>
+            <ul class="coches">
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Licences, documents, factures et paiements de chaque enfant</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Boutique du club : commande en ligne, règlement au club</span></li>
+              <li><svg aria-hidden="true"><use href="#i-coche"/></svg><span>Organigramme, trombinoscope, statistiques et partenaires du club</span></li>
+            </ul>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -646,6 +674,36 @@
             <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M7 9h4m-4 3h7"/></svg></div>
             <h3>Back-office web</h3>
             <p>Équipes, licenciés, import CSV, coachs et bénévoles : le bureau gère tout depuis un ordinateur.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></div>
+            <h3>Boutique du club</h3>
+            <p>Maillots, sweats, sacs : les familles commandent, le club encaisse comme il le souhaite. Aucun paiement en ligne.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+            <h3>Licences et factures</h3>
+            <p>Licence de chaque enfant, factures en PDF et suivi des paiements, consultables par la famille.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"/></svg></div>
+            <h3>Documents partagés</h3>
+            <p>Règlement intérieur, planning des salles, autorisations : pour tout le club ou une seule équipe.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 7v4M6 16v-2h12v2"/></svg></div>
+            <h3>Organigramme et trombinoscope</h3>
+            <p>Le bureau, les coachs et les équipes en photo, avec l'accord de chaque famille pour le droit à l'image.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10m6 10V4m6 16v-7m4 7H3"/></svg></div>
+            <h3>Statistiques</h3>
+            <p>Matchs joués, victoires, présence aux entraînements : calculées toutes seules, saison après saison.</p>
+          </div>
+          <div class="carte apparait">
+            <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8-4.3-4.1 5.9-.9L12 3Z"/></svg></div>
+            <h3>Partenaires</h3>
+            <p>Les logos de vos sponsors mis en avant auprès de toutes les familles du club.</p>
           </div>
         </div>
       </div>
@@ -833,8 +891,12 @@
             <p>Oui. À l'ouverture de votre accès, l'application prend les deux couleurs de votre club et affiche son nom sur chaque écran. Une famille inscrite dans deux clubs retrouve chacun à ses couleurs.</p>
           </details>
           <details class="apparait">
+            <summary>Sur quels appareils fonctionne Basket&amp;cie ?</summary>
+            <p>Sur iPhone (App Store), sur Android (Google Play) et sur ordinateur, depuis un simple navigateur. Le même compte fonctionne partout. La version ordinateur va plus loin : licences, documents, factures, boutique du club, trombinoscope et statistiques.</p>
+          </details>
+          <details class="apparait">
             <summary>Faut-il installer quelque chose au club ?</summary>
-            <p>Non. Le bureau utilise le back-office depuis un navigateur, et les familles téléchargent l'application sur leur téléphone (iPhone ou Android).</p>
+            <p>Non. Le bureau utilise le back-office depuis un navigateur. Les familles téléchargent l'application sur leur téléphone (iPhone ou Android) ou se connectent depuis un ordinateur, sans rien installer.</p>
           </details>
           <details class="apparait">
             <summary>Peut-on supprimer ses données ?</summary>
@@ -873,6 +935,7 @@
       <div class="stores" aria-label="Disponibilité">
         <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8a4.6 4.6 0 0 0-3.9 2.4c-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.7 2.4 2.9 2.4 1.2-.1 1.6-.8 3-.8s1.8.8 3.1.8c1.3 0 2.1-1.2 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.5-4.1ZM14.1 5.5c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3Z"/></svg>App Store · bientôt</span>
         <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.8v18.4c0 .4.4.7.8.5l10.5-9.2L4.8 2.3c-.4-.2-.8.1-.8.5Zm12.6 8.6L6.9 2.5l11.3 6.3-1.6 2.6Zm0 1.2 1.6 2.6-11.3 6.3 9.7-8.9Zm2.8-3 2.6 1.4c.5.3.5 1 0 1.3l-2.6 1.4-1.8-2.1 1.8-2Z"/></svg>Google Play · bientôt</span>
+        <span class="store"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Version web · bientôt</span>
       </div>
       <nav aria-label="Liens légaux">
         <a href="mentions-legales.html">Mentions légales</a>
