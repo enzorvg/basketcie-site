@@ -390,7 +390,21 @@
       .bulle { font-size: .8rem; padding: 10px 12px; }
       .bulle.notif { left: 0; top: 0; }
       .bulle.reponse { right: 0; bottom: 8px; }
-      .bandeau .conteneur, .etapes { grid-template-columns: 1fr; }
+      .bandeau .conteneur, .etapes, .tarifs { grid-template-columns: 1fr; }
+      /* Tarifs : liste verticale compacte, les trois prix visibles en faisant défiler. */
+      .tarifs { gap: 14px; }
+      .tarif { padding: 22px 22px 24px; border-radius: 20px; }
+      .tarif .prix { margin-top: 14px; }
+      .tarif .prix strong { font-size: 2.4rem; }
+      .tarif .coches { margin: 16px 0 20px; gap: 8px; font-size: .93rem; }
+      .tarif .badge { top: -12px; }
+      /* « Tout est inclus » : grille 2 colonnes, icône et titre seulement. */
+      .grille-compacte { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .grille-compacte .carte { padding: 16px 14px; border-radius: 16px; }
+      .grille-compacte .icone { width: 40px; height: 40px; border-radius: 12px; margin-bottom: 10px; }
+      .grille-compacte .icone svg { width: 20px; height: 20px; }
+      .grille-compacte h3 { font-size: 1rem; margin: 0; }
+      .grille-compacte p { display: none; }
       .etape:not(:last-child)::after { display: none; }
       .tarif.vedette { max-width: none; order: 0; }
       .vitrine { margin-bottom: 80px; }
@@ -411,8 +425,8 @@
         margin: 0 -24px; padding: 6px 24px 10px;
       }
       .carrousel::-webkit-scrollbar { display: none; }
-      .carrousel > * { flex: 0 0 84%; scroll-snap-align: center; }
-      .tarifs.carrousel { padding-top: 20px; }
+      /* Carte presque pleine largeur : seule une fine bande de la suivante dépasse. */
+      .carrousel > * { flex: 0 0 calc(100% - 28px); scroll-snap-align: start; }
       .carrousel .carte:hover { transform: none; }
       /* Les vignettes hors écran (à droite) ne déclenchent pas l'apparition : on les montre d'emblée. */
       .carrousel > .apparait { opacity: 1; transform: none; }
@@ -602,7 +616,7 @@
           <span class="surtitre">Tout est inclus</span>
           <h2 id="titre-tout">Ce dont un club a besoin, rien de superflu</h2>
         </div>
-        <div class="grille carrousel">
+        <div class="grille grille-compacte">
           <div class="carte apparait">
             <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4m8-4v4M3 10h18m-11 5 2 2 4-4"/></svg></div>
             <h3>Convocations</h3>
@@ -743,7 +757,7 @@
           <p>Un abonnement par saison, toutes les fonctionnalités incluses dans chaque formule.</p>
         </div>
 
-        <div class="tarifs carrousel">
+        <div class="tarifs">
           <div class="tarif apparait">
             <h3>Petit club</h3>
             <p class="taille">Jusqu'à 80 licenciés</p>
