@@ -348,6 +348,8 @@
     }
     .store svg { width: 18px; height: 18px; }
 
+    .points { display: none; }
+
     /* --- Apparition au défilement ----------------------------------------- */
     .apparait { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
     .apparait.visible { opacity: 1; transform: none; }
@@ -388,7 +390,7 @@
       .bulle { font-size: .8rem; padding: 10px 12px; }
       .bulle.notif { left: 0; top: 0; }
       .bulle.reponse { right: 0; bottom: 8px; }
-      .bandeau .conteneur, .grille, .profils, .tarifs, .etapes { grid-template-columns: 1fr; }
+      .bandeau .conteneur, .etapes { grid-template-columns: 1fr; }
       .etape:not(:last-child)::after { display: none; }
       .tarif.vedette { max-width: none; order: 0; }
       .vitrine { margin-bottom: 80px; }
@@ -402,6 +404,23 @@
       .appel { padding: 56px 24px; border-radius: 24px; }
       .terrain { display: none; }
       .heros h1 em { white-space: normal; }
+      /* Mobile : les groupes de vignettes deviennent des carrousels à faire glisser. */
+      .carrousel {
+        display: flex; gap: 14px; overflow-x: auto; overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory; scroll-padding: 0 24px; scrollbar-width: none;
+        margin: 0 -24px; padding: 6px 24px 10px;
+      }
+      .carrousel::-webkit-scrollbar { display: none; }
+      .carrousel > * { flex: 0 0 84%; scroll-snap-align: center; }
+      .tarifs.carrousel { padding-top: 20px; }
+      .carrousel .carte:hover { transform: none; }
+      /* Les vignettes hors écran (à droite) ne déclenchent pas l'apparition : on les montre d'emblée. */
+      .carrousel > .apparait { opacity: 1; transform: none; }
+      .points { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+      .points button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: var(--bordure); cursor: pointer; transition: width .2s ease, background-color .2s ease; }
+      .points button[aria-current="true"] { width: 22px; background: var(--orange); }
+      .confiance .points button { background: rgba(255,255,255,.25); }
+      .confiance .points button[aria-current="true"] { background: var(--orange-vif); }
     }
   </style>
 </head>
@@ -583,7 +602,7 @@
           <span class="surtitre">Tout est inclus</span>
           <h2 id="titre-tout">Ce dont un club a besoin, rien de superflu</h2>
         </div>
-        <div class="grille">
+        <div class="grille carrousel">
           <div class="carte apparait">
             <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4m8-4v4M3 10h18m-11 5 2 2 4-4"/></svg></div>
             <h3>Convocations</h3>
@@ -651,7 +670,7 @@
           <span class="surtitre">Pour qui</span>
           <h2 id="titre-profils">Chacun y gagne du temps</h2>
         </div>
-        <div class="profils">
+        <div class="profils carrousel">
           <div class="profil apparait">
             <span class="etiquette">Parents et joueurs</span>
             <h3>Toutes les infos, sans chercher</h3>
@@ -695,7 +714,7 @@
           <h2 id="titre-confiance">Conçue pour protéger les enfants</h2>
           <p>Un club de basket, ce sont surtout des mineurs. Basket&amp;cie a été pensée pour le RGPD dès la première ligne.</p>
         </div>
-        <div class="grille">
+        <div class="grille carrousel">
           <div class="carte apparait">
             <div class="icone"><svg viewBox="0 0 24 24"><use href="#i-bouclier"/></svg></div>
             <h3>Pas de compte avant 15 ans</h3>
@@ -724,7 +743,7 @@
           <p>Un abonnement par saison, toutes les fonctionnalités incluses dans chaque formule.</p>
         </div>
 
-        <div class="tarifs">
+        <div class="tarifs carrousel">
           <div class="tarif apparait">
             <h3>Petit club</h3>
             <p class="taille">Jusqu'à 80 licenciés</p>
@@ -863,6 +882,35 @@
     });
     nav.addEventListener('click', (e) => {
       if (e.target.closest('a')) { nav.classList.remove('ouvert'); bouton.setAttribute('aria-expanded', 'false'); }
+    });
+
+    // Carrousels (mobile) : points de pagination, et la formule « Le plus courant » au centre au départ.
+    const mobile = matchMedia('(max-width: 760px)');
+    document.querySelectorAll('.carrousel').forEach((c) => {
+      const cartes = [...c.children];
+      const points = document.createElement('div');
+      points.className = 'points';
+      cartes.forEach((carte, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Vignette ${i + 1} sur ${cartes.length}`);
+        b.addEventListener('click', () => c.scrollTo({ left: carte.offsetLeft - c.offsetLeft - (c.clientWidth - carte.clientWidth) / 2, behavior: 'smooth' }));
+        points.append(b);
+      });
+      c.after(points);
+      const majPoints = () => {
+        const centre = c.scrollLeft + c.clientWidth / 2;
+        let actif = 0, ecart = Infinity;
+        cartes.forEach((carte, i) => {
+          const d = Math.abs(carte.offsetLeft - c.offsetLeft + carte.clientWidth / 2 - centre);
+          if (d < ecart) { ecart = d; actif = i; }
+        });
+        [...points.children].forEach((b, i) => b.setAttribute('aria-current', String(i === actif)));
+      };
+      c.addEventListener('scroll', majPoints, { passive: true });
+      const vedette = c.querySelector('.vedette');
+      if (vedette && mobile.matches) c.scrollLeft = vedette.offsetLeft - c.offsetLeft - (c.clientWidth - vedette.clientWidth) / 2;
+      majPoints();
     });
 
     // Apparition douce des sections (le contenu reste visible sans JavaScript, voir <noscript>).
